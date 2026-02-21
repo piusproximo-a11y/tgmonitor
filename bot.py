@@ -44,7 +44,7 @@ if not GEMINI_API_KEY:
     raise RuntimeError("GEMINI_API_KEY is not set")
 
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash-latest")
+model = genai.GenerativeModel("gemini-1.5-pro")
 
 
 # ------------------ ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ------------------
