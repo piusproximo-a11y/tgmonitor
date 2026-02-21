@@ -49,3 +49,6 @@ async def fetch_channel_posts(channel: str, hours: int = 8) -> list[str]:
     text,
     re.DOTALL
 )
+except Exception as e:
+    print("fetch_channel_posts error:", e)
+    return posts
