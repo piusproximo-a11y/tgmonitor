@@ -110,7 +110,7 @@ async def fetch_channel_posts(channel: str) -> list[str]:
 
             html = resp.text
             messages = re.findall(
-                r'<div class="tgme_widget_message_text[^"]*">(.*?)</div>',
+                r'<div class="tgme_widget_message_text.*?">(.*?)</div>',
                 html,
                 re.DOTALL,
             )
