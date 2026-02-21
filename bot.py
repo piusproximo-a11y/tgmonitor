@@ -45,10 +45,10 @@ async def fetch_channel_posts(channel: str, hours: int = 8) -> list[str]:
             text = resp.text
             import re
             messages = re.findall(
-    r'<div class="tgme_widget_message_text">(.*?)</div>',
-    text,
-    re.DOTALL
-)
-except Exception as e:
+                r'<div class="tgme_widget_message_text">(.*?)</div>',
+                text,
+                re.DOTALL
+            )
+    except Exception as e:
     print("fetch_channel_posts error:", e)
     return posts
