@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import httpx
 from telegram import Bot
 from telegram.error import TelegramError
+from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import google.generativeai as genai
 
@@ -52,3 +53,29 @@ async def fetch_channel_posts(channel: str, hours: int = 8) -> list[str]:
     except Exception as e:
         print("fetch_channel_posts error:", e)
         return posts
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+
+async def start(update, context):
+    await update.message.reply_text("Я на связи. Напиши /help")
+
+async def help_cmd(update, context):
+    await update.message.reply_text("Команды: /start, /help")
+
+async def echo(update, context):
+    await update.message.reply_text("Получил: " + (update.message.text or ""))
+
+def main():
+    if not TELEGRAM_BOT_TOKEN:
+        raise RuntimeError("TELEGRAM_BOT_TOKEN is not set")
+
+    app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("help", help_cmd))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+
+    print("BOT STARTED (polling)")
+    app.run_polling()
+
+if __name__ == "__main__":
+    main()
